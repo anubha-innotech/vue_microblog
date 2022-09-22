@@ -8,13 +8,13 @@
         {{content.details}}
     </div>
     <div class="horizontal-line"></div>
-    <div class="likes">
-        <span class="heart-icon" @click="likeBtnHandler">&#10084;</span>
+    <div class="likes" @click="likeBtnHandler">
+        <span class="heart-icon" :class="{red : content.liked}">&#10084;</span>
         {{content.likes}}
     </div>
     <div class="hash-tags">
         <ul>
-            <li v-for="(tag,index) in content.hashtags" :key="index">{{tag}}</li>
+            <li v-for="(tag,index) in content.hashtags" @click="hashtagClickHandler(tag)" :key="index">#{{tag}}</li>
         </ul>
     </div>
     <div>
@@ -24,55 +24,93 @@
 </template>
 
 <script>
-export default{
+export default {
     name: 'CardComponent',
-    props:{
-        content:{
+    props: {
+        content: {
             type: Object
+        },
+        index: {
+            type: Number,
         }
     },
-    setup(){
-        function likeBtnHandler(){
-            console.log("clicked");
+    setup(props, context) {
+        function likeBtnHandler() {
+            context.emit('like-btn-handler', props.index)
         }
-        return{
+
+        function hashtagClickHandler(tag) {
+            context.emit('hashtag-click-handler', tag)
+        }
+        // setup(props,context){
+        //     let searchInput = ref(props.searchHashtagInput);
+
+        //     function searchHashTagBtn(){
+        //         context.emit('search-hashtag-handler',searchInput)
+        //     }
+        //     return{
+        //         searchInput,
+        //         searchHashTagBtn
+        //     }
+        // }
+        return {
             likeBtnHandler,
+            hashtagClickHandler
         }
     }
 }
 </script>
 
 <style>
-.card{
+.card {
     width: 250px;
     border: 1px solid black;
     margin: 10px;
     height: 370px;
     text-align: center;
-    /* background-color: black; */
+    background-color: rgb(186, 224, 222);
+    border: none;
+    border-radius: 10px;
 }
 
-.card-heading{
+.card-heading {
     padding: 20px;
+    letter-spacing: 1.5px;
 }
 
-.card-main-content{
-    padding: 30px;
+.card-main-content {
+    padding: 30px 25px;
     height: 200px;
-    /* background-color:darkorange; */
+    line-height: 1.4em;
 }
-.horizontal-line{
+
+.horizontal-line {
     border-bottom: 1px solid black;
 }
 
-.likes{
+.likes {
     margin: 10px;
+    cursor: pointer;
 }
-.hash-tags ul{
+
+.hash-tags ul {
     list-style-type: none;
 }
 
-.heart-icon{
+.hash-tags ul li {
     cursor: pointer;
+}
+
+.hash-tags ul li:hover {
+    color: black;
+    font-size: 1.05em;
+}
+
+.red {
+    color: red;
+}
+
+.heart-icon:hover {
+    color: red;
 }
 </style>
