@@ -1,9 +1,7 @@
 <template>
-    <div class="search-container">
-    <!-- <SearchHashtag @clicked="onClickChild"/> -->
-    
-    <label for="search-hashtag">Search Hashtag</label>
-    <input type="text" id="search-hashtag" v-model="searchInput">
+<div class="search-container">
+    <SearchHashtag v-model="searchInput" />
+    <!-- {{searchInput}} -->
 </div>
 <div class="blogs-container">
     <div v-for="(content,index) in searchedContents" :key="index">
@@ -14,7 +12,7 @@
 
 <script>
 import CardComponent from './components/CardComponent.vue'
-// import SearchHashtag from './components/SearchHashtag.vue'
+import SearchHashtag from './components/SearchHashtag.vue'
 import {
     contents
 } from './components/contents'
@@ -28,47 +26,48 @@ export default {
     name: 'App',
     components: {
         CardComponent,
-        // SearchHashtag
+        SearchHashtag
     },
 
     setup() {
         // to get reactive contents.js data 
-        let contentsBlog  = reactive(contents);
+        let contentsBlog = reactive(contents);
         // console.log(contentsBlog);
-        let searchInput = ref("");
+        const searchInput = ref("");
 
+        // Like button function : add the likes by one when click on it 
         function likeBtnHandler(index) {
-              contentsBlog[index].likes += 1;
-                contentsBlog[index].liked = true;
-                console.log(contentsBlog[index]);
-            } 
+            contentsBlog[index].likes += 1;
+            contentsBlog[index].liked = true;
+            console.log(contentsBlog[index]);
+        }
 
+        // Hashtag click event function : clicking on any hashtag filters all the blog by that hashtag
         function hashtagClickHandler(tag) {
             console.log("clicked" + tag);
             searchInput.value = tag;
         }
 
-        // const searchedContents = computed(() => {
-            // if (searchInput.value.length != 0) {
-                // return contentsBlog.filter((content => {
-                    // return content.hashtags.includes(searchInput.value)
-                // }))
-            // } else {
-                // return contentsBlog
-            // }
-        // })
-
         const searchedContents = computed(() => {
-            if (searchInput.value) {
+            if (searchInput.value.length <= 3) {
                 return contentsBlog.filter((content => {
                     // console.log(content);
-                    return content.hashtags.some(element=>{
+                    return content.hashtags.some(element => {
                         // console.log(element);
-                        if(element.toLowerCase().includes(searchInput.value.toLowerCase())){
+                        if (element.toLowerCase().includes(searchInput.value.toLowerCase())) {
                             // console.log("match");
                             return true
+                        } else {
+                            return false
                         }
-                        else {
+                    })
+                }))
+            } else if (searchInput.value.length > 3) {
+                return contentsBlog.filter((content => {
+                    return content.title.toLowerCase().includes(searchInput.value) || content.details.toLowerCase().includes(searchInput.value.toLowerCase()) || content.hashtags.some(element => {
+                        if (element.toLowerCase().includes(searchInput.value.toLowerCase())) {
+                            return true
+                        } else {
                             return false
                         }
                     })
@@ -113,8 +112,7 @@ export default {
 
 .search-container input {
     margin-left: 10px;
-    padding: 10px;
-    padding-bottom: 2px;
+    padding: 10px 0px 2px 2px;
     border: none;
     font-size: .8em;
     border-bottom: 1px solid white;

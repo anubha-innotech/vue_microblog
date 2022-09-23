@@ -42,17 +42,7 @@ export default {
         function hashtagClickHandler(tag) {
             context.emit('hashtag-click-handler', tag)
         }
-        // setup(props,context){
-        //     let searchInput = ref(props.searchHashtagInput);
 
-        //     function searchHashTagBtn(){
-        //         context.emit('search-hashtag-handler',searchInput)
-        //     }
-        //     return{
-        //         searchInput,
-        //         searchHashTagBtn
-        //     }
-        // }
         return {
             likeBtnHandler,
             hashtagClickHandler
