@@ -1,14 +1,15 @@
 <template>
-    <div class="hash-tags">
-        <ul>
-            <li v-for="(tag,index) in content.hashtags" @click="hashtagClickHandler(tag)" :key="index">#{{tag}}</li>
-        </ul>
-    </div>
-    </template>
+<div class="hash-tags">
+    <ul>
+        <li v-for="(tag,index) in content.hashtags" @click="hashtagClickHandler(tag)" :key="index">#{{tag}}</li>
+    </ul>
+</div>
+</template>
+
     
-    <script>
-    export default {
-        props: {
+<script>
+export default {
+    props: {
         content: {
             type: Object
         },
@@ -16,7 +17,7 @@
             type: Number,
         }
     },
-        setup(props, context) {
+    setup(props, context) {
         const hashtagClickHandler = (tag) => {
             console.log(tag);
             context.emit("hashtag-click-handler", tag);
@@ -25,5 +26,5 @@
             hashtagClickHandler
         };
     },
-    }
-    </script>
+}
+</script>

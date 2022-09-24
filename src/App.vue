@@ -36,14 +36,14 @@ export default {
         const searchInput = ref("");
 
         // Like button function : increases the likes by one when click on it 
-        let likeBtnHandler = (index) => {
+        const likeBtnHandler = (index) => {
             contentsOfBlog[index].likes += 1;
             contentsOfBlog[index].liked = true;
             // console.log(contentsOfBlog[index]);
         }
 
         // Hashtag click event function : clicking on any hashtag filters all the blog by that hashtag
-        let hashtagClickHandler = (tag) => {
+        const hashtagClickHandler = (tag) => {
             // console.log("clicked" + tag);
             searchInput.value = tag;
         }
