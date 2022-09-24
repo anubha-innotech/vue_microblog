@@ -12,11 +12,12 @@
         <span class="heart-icon" :class="{red : content.liked}">&#10084;</span>
         {{content.likes}}
     </div>
-    <div class="hash-tags">
+    <HashtagComponent :content="content" :index="index" @hashtagClickHandler="hashtagClickHandler"/>
+    <!-- <div class="hash-tags">
         <ul>
             <li v-for="(tag,index) in content.hashtags" @click="hashtagClickHandler(tag)" :key="index">#{{tag}}</li>
         </ul>
-    </div>
+    </div> -->
     <div>
 
     </div>
@@ -24,8 +25,10 @@
 </template>
 
 <script>
+import HashtagComponent from './HashtagComponent.vue'
+
 export default {
-    name: 'CardComponent',
+    name: "CardComponent",
     props: {
         content: {
             type: Object
@@ -35,19 +38,19 @@ export default {
         }
     },
     setup(props, context) {
-        function likeBtnHandler() {
-            context.emit('like-btn-handler', props.index)
+        const likeBtnHandler = () => {
+            context.emit("like-btn-handler", props.index);
         }
-
-        function hashtagClickHandler(tag) {
-            context.emit('hashtag-click-handler', tag)
+        const hashtagClickHandler = (tag) => {
+            console.log(tag);
+            context.emit("hashtag-click-handler", tag);
         }
-
         return {
             likeBtnHandler,
             hashtagClickHandler
-        }
-    }
+        };
+    },
+    components: { HashtagComponent }
 }
 </script>
 

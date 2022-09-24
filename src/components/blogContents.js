@@ -1,4 +1,4 @@
-export const contents = [{
+export const blogContents = [{
     title: 'Learning Vue.js 3',
     id: 1,
     details: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur iusto quasi necessitatibus',

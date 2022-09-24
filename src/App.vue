@@ -14,8 +14,8 @@
 import CardComponent from './components/CardComponent.vue'
 import SearchHashtag from './components/SearchHashtag.vue'
 import {
-    contents
-} from './components/contents'
+    blogContents
+} from './components/blogContents'
 import {
     ref,
     computed,
@@ -30,27 +30,27 @@ export default {
     },
 
     setup() {
-        // to get reactive contents.js data 
-        let contentsBlog = reactive(contents);
+        // To get reactive contents.js data 
+        let contentsOfBlog = reactive(blogContents);
         // console.log(contentsBlog);
         const searchInput = ref("");
 
-        // Like button function : add the likes by one when click on it 
-        function likeBtnHandler(index) {
-            contentsBlog[index].likes += 1;
-            contentsBlog[index].liked = true;
-            console.log(contentsBlog[index]);
+        // Like button function : increases the likes by one when click on it 
+        let likeBtnHandler = (index) => {
+            contentsOfBlog[index].likes += 1;
+            contentsOfBlog[index].liked = true;
+            // console.log(contentsOfBlog[index]);
         }
 
         // Hashtag click event function : clicking on any hashtag filters all the blog by that hashtag
-        function hashtagClickHandler(tag) {
-            console.log("clicked" + tag);
+        let hashtagClickHandler = (tag) => {
+            // console.log("clicked" + tag);
             searchInput.value = tag;
         }
 
         const searchedContents = computed(() => {
             if (searchInput.value.length <= 3) {
-                return contentsBlog.filter((content => {
+                return contentsOfBlog.filter((content => {
                     // console.log(content);
                     return content.hashtags.some(element => {
                         // console.log(element);
@@ -63,7 +63,7 @@ export default {
                     })
                 }))
             } else if (searchInput.value.length > 3) {
-                return contentsBlog.filter((content => {
+                return contentsOfBlog.filter((content => {
                     return content.title.toLowerCase().includes(searchInput.value) || content.details.toLowerCase().includes(searchInput.value.toLowerCase()) || content.hashtags.some(element => {
                         if (element.toLowerCase().includes(searchInput.value.toLowerCase())) {
                             return true
@@ -73,13 +73,13 @@ export default {
                     })
                 }))
             } else {
-                return contentsBlog
+                return contentsOfBlog
             }
         })
 
         return {
-            contents,
-            contentsBlog,
+            blogContents,
+            contentsOfBlog,
             searchInput,
             searchedContents,
             likeBtnHandler,
