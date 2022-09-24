@@ -13,14 +13,6 @@
         {{content.likes}}
     </div>
     <HashtagComponent :content="content" :index="index" @hashtagClickHandler="hashtagClickHandler"/>
-    <!-- <div class="hash-tags">
-        <ul>
-            <li v-for="(tag,index) in content.hashtags" @click="hashtagClickHandler(tag)" :key="index">#{{tag}}</li>
-        </ul>
-    </div> -->
-    <div>
-
-    </div>
 </div>
 </template>
 
@@ -37,6 +29,7 @@ export default {
             type: Number,
         }
     },
+
     setup(props, context) {
         const likeBtnHandler = () => {
             context.emit("like-btn-handler", props.index);
